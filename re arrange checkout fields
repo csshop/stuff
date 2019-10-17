@@ -1,0 +1,31 @@
+// Align checkout fields JP 9/22/19
+add_filter( 'woocommerce_cart_needs_shipping_address', '__return_false');
+
+function js_align_address_checkout_fields( $fields ) {
+    if ( ( $key = array_search( 'form-row-wide', $fields['billing_state']['class'] ) ) !== false ) {
+        unset( $fields['billing_state']['class'][ $key ] );
+    }
+
+    if ( ( $key = array_search( 'form-row-wide', $fields['billing_postcode']['class'] ) ) !== false ) {
+        unset( $fields['billing_postcode']['class'][ $key ] );
+    }
+	 if ( ( $key = array_search( 'form-row-wide', $fields['billing_city']['class'] ) ) !== false ) {
+        unset( $fields['billing_city']['class'][ $key ] );
+    } 
+	if ( ( $key = array_search( 'form-row-wide', $fields['billing_country']['class'] ) ) !== false ) {
+        unset( $fields['billing_country']['class'][ $key ] );
+    } 
+	if ( ( $key = array_search( 'form-row-wide', $fields['billing_email']['class'] ) ) !== false ) {
+        unset( $fields['billing_email']['class'][ $key ] );
+    } 
+
+    $fields['billing_state']['class'][] = 'form-row-first';
+    $fields['billing_postcode']['class'][] = 'form-row-last';
+	$fields['billing_city']['class'][] = 'form-row-first';
+	$fields['billing_country']['class'][] = 'form-row-first';
+	$fields['billing_email']['class'][] = 'form-row-first';
+	
+    return $fields;
+}
+add_filter( 'woocommerce_billing_fields', 'js_align_address_checkout_fields' );
+
